@@ -13,7 +13,7 @@ Rails.application.routes.draw do
       end
     end
   end
-
+  
   mount Resque::Server, at: '/jobs'
   devise_for :users, :controllers => { :registrations => "users/registrations", :sessions => 'users/sessions', :passwords => 'users/passwords' }
 
