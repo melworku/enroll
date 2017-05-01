@@ -4,6 +4,16 @@ Rails.application.routes.draw do
   mount TransportProfiles::Engine, at: "/transport_profiles"
 
   require 'resque/server'
+  namespace :uis do
+    resources :bootstrap3_examples do
+      collection do
+        get :index
+        get :components
+        get :getting_started
+      end
+    end
+  end
+
   mount Resque::Server, at: '/jobs'
   devise_for :users, :controllers => { :registrations => "users/registrations", :sessions => 'users/sessions', :passwords => 'users/passwords' }
 
