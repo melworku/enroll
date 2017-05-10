@@ -42,9 +42,9 @@
             <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
               <div class="flash_message"><%= flash_messages %></div>
               <div class="breadcrumbs"><%= yield(:breadcrumbs) if content_for?(:breadcrumbs) %></div>
-              <%= content_for?(:main) ? yield(:main) : "Provide content for :main" %>
-            </div>
-          </main>
+              <%= content_for?(:main) ? yield(:main) : yield %>
+            </main>
+          </div>
         </div>
       </div>
     <% else %>
