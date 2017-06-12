@@ -254,6 +254,8 @@ Rails.application.routes.draw do
         get 'search'
         post 'match'
         get 'inbox'
+        get 'counties_for_zip_code'
+        get 'generate_sic_tree'
       end
       resources :plan_years do
         get 'reference_plans'
@@ -369,6 +371,8 @@ Rails.application.routes.draw do
           get :download_pdf
           get :dental_plans_data
           get :my_quotes
+          get :employees_list
+          get :employee_type
         end
         member do
           get :upload_employee_roster
