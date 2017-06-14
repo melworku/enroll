@@ -56,10 +56,20 @@ class Document
 
   field :tags, type: Array, default: []
 
+  field :status, type: String, default: "Submitted"
+
+  field :reason_for_rejection, type: String
+
+
   validates_presence_of :title, :creator, :publisher, :type, :format, :source, :language
 
   validates :rights,
     allow_blank: true,
     inclusion: { in: ACCESS_RIGHTS, message: "%{value} is not a valid access right" }
+
+  scope :submitted,           ->{ where(:"status" => "Submitted") }
+  scope :approved,           ->{ where(:"status" => "Approved") }
+  scope :rejected,           ->{ where(:"status" => "Rejected") }
+
 
 end
