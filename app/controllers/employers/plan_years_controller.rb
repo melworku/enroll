@@ -119,6 +119,7 @@ class Employers::PlanYearsController < ApplicationController
     @plan_year = ::Forms::PlanYearForm.build(@employer_profile, plan_year_params)
 
     @plan_year.benefit_groups.each_with_index do |benefit_group, i|
+     benefit_group.modify_relationship_benefits_for_single_plan if benefit_group.single_plan_type?
 
       benefit_group.elected_plans = benefit_group.elected_plans_by_option_kind
       benefit_group.elected_dental_plans = if benefit_group.dental_plan_option_kind == "single_plan"
