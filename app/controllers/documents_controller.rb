@@ -189,6 +189,15 @@ class DocumentsController < ApplicationController
   end
 
 
+      respond_to do |format|
+        format.js { render "documents/new" }
+      end
+  end
+
+  def create
+    Document.create(:title=>"Doc1",:creator=>"dchl",:publisher=>"dchl",:type=>"text",:format=>"application/octet-stream",:source=>"enroll_system",:language=>"en",:rights=>"public")
+  end
+
   private
   def updateable?
     authorize Family, :updateable?
@@ -217,9 +226,9 @@ class DocumentsController < ApplicationController
   end
 
   def verification_attr
-    OpenStruct.new({:determined_at => TimeKeeper.datetime_of_record,
+    OpenStruct.new({:determined_at => Time.now,
                     :authority => "hbx"
                    })
   end
 
-end
+

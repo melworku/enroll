@@ -1,10 +1,8 @@
-
 module Effective
   module Datatables
     class DocumentDatatable < Effective::MongoidDatatable
       datatable do
-
-
+        
         bulk_actions_column do
           bulk_action 'Download', download_documents_documents_path, data: {  confirm: 'Do you want to Download?', no_turbolink: true }
           bulk_action 'Delete', delete_documents_documents_path, data: {  confirm: 'Are you sure?', no_turbolink: true }
@@ -23,9 +21,11 @@ module Effective
       end
 
       def collection
+
         documents = Document.all
         documents = Document.send(attributes[:status]) if attributes[:status].present?
         documents
+        Document.all
       end
 
       def global_search?
