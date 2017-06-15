@@ -150,6 +150,7 @@ class DocumentsController < ApplicationController
     document = Document.new(:title=>params[:file].original_filename,:creator=>params[:document][:creator],:publisher=>"dchl",:type=>"text",:format=>"application/octet-stream",:source=>params[:file],:language=>"en",:rights=>"public",:date=>DateTime.now)
     document.save!
     redirect_to exchanges_hbx_profiles_path+'?tab=documents'
+
   end
 
   def document_reader
