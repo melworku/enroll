@@ -231,7 +231,6 @@
                       <% if bg.is_offering_dental? %>Health
                       <% end %>Contribution</th>
                   </tr>
-                  <%binding.pry%>
                   <% bg.relationship_benefits.each_with_index do |rb, i| %>
                     <%if (bg.plan_option_kind == "single_plan" && ["employee","employee_and_spouse","employee_and_child","family"].include?(rb.relationship))%>
                       <tr>

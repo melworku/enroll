@@ -7,7 +7,6 @@ class BenefitGroup
   embedded_in :plan_year
 
   attr_accessor :metal_level_for_elected_plan, :carrier_for_elected_plan
-  after_save :remove_relation_ships
 
   PLAN_OPTION_KINDS = %w(sole_source single_plan single_carrier metal_level)
   EFFECTIVE_ON_KINDS = %w(date_of_hire first_of_month)
@@ -17,17 +16,12 @@ class BenefitGroup
     :employee,
     :employee_and_dependents,
     :employee_and_spouse,
-    :employee_children,
+    :employee_and_child,
     :family,
     :spouse,
     :domestic_partner,
     :child_under_26,
-    :child_26_and_over
-  ]
-  NON_SINGLE_PLAN_RELATIONSHIP_KINDS = [
-    "spouse",
-    "domestic_partner",
-    "child_under_26"
+    :child_26_and_over,
   ]
 
   field :title, type: String, default: ""
@@ -129,12 +123,6 @@ class BenefitGroup
     raise ArgumentError.new("expected Plan") unless new_reference_plan.is_a? Plan
     self.reference_plan_id = new_reference_plan._id
     @reference_plan = new_reference_plan
-  end
-
-  def remove_relation_ships
-    if self.plan_option_kind == 'single_plan'
-      self.relationship_benefits.where(relationship: {"$in" => NON_SINGLE_PLAN_RELATIONSHIP_KINDS}).delete_all
-    end
   end
 
   def dental_reference_plan=(new_reference_plan)
@@ -309,7 +297,7 @@ class BenefitGroup
 
   def build_relationship_benefits
     self.relationship_benefits = PERSONAL_RELATIONSHIP_KINDS.map do |relationship|
-      self.relationship_benefits.build(relationship: relationship, offered: true)
+       self.relationship_benefits.build(relationship: relationship, offered: true)
     end
   end
 
@@ -526,6 +514,13 @@ class BenefitGroup
     end
   end
 
+  def modify_relationship_benefits_for_single_plan
+    e_and_d_premium_pct = self.relationship_benefits.where(:relationship=>"employee_and_dependents").first().premium_pct
+    self.relationship_benefits.where(:relationship=>"employee_and_spouse").first().update_attributes(:premium_pct=>e_and_d_premium_pct)
+    self.relationship_benefits.where(:relationship=>"employee_and_child").first().update_attributes(:premium_pct=>e_and_d_premium_pct)
+    self.relationship_benefits.where(:relationship=>"family").first().update_attributes(:premium_pct=>e_and_d_premium_pct)
+  end
+
   private
 
   def set_congress_defaults
@@ -611,4 +606,5 @@ class BenefitGroup
       self.errors.add(:relationship_benefits, "employee must be offered")
     end
   end
+
 end
