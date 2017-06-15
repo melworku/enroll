@@ -13,7 +13,7 @@ class Document
   field :title, type: String, default: "untitled"
 
   # Entity responsible for making the resource - person, organization or service
-  field :creator, type: String, default: "dchl"
+  field :creator, type: String
 
   # Controlled vocabulary w/classification codes. Mapped to ConsumerRole::VLP_DOCUMENT_KINDS
   field :subject, type: String
