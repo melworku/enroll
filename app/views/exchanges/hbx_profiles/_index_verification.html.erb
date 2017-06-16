@@ -50,9 +50,9 @@
             <div class="col-md-4">
               <select class="form-control" name="reason_for_rejection">
                 <option value="nil">Reason for rejection</option>
-                <option value="A">A</option>
-                <option value="B">B</option>
-                <option value="C">C</option>
+                <option value="A">Unable To Open Document</option>
+                <option value="B">Document Not Required DOR-1 Form</option>
+                <option value="C">DOR-1 Form DoesNot Match Bussiness</option>
               </select>
               <div class="form-group">
                 <input type="text" name="other_reason" placeholder="Other reason for rejection">
@@ -81,7 +81,7 @@
            window_obj.document.write($('#print_'+id).html());
            window_obj.print();
            window_obj.close();
-    }    
+        }
 </script>
 
 
