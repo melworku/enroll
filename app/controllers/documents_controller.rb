@@ -145,8 +145,11 @@ class DocumentsController < ApplicationController
   end
 
   def create
-    @document = Document.create(:title=>"Doc1",:creator=>params[:document][:creator],:publisher=>"dchl",:type=>"text",:format=>"application/octet-stream",:source=>params[:file],:language=>"en",:rights=>"public",:date=>DateTime.now)
-    redirect_to :back
+    #@employer_profile = Organization.all_employer_profiles.where(legal_name: params[:document][:creator]).last
+    #document = @employer_profile.documents.new(:title=>"Doc1",:creator=>params[:document][:creator],:publisher=>"dchl",:type=>"text",:format=>"application/octet-stream",:source=>params[:file],:language=>"en",:rights=>"public",:date=>DateTime.now)
+    document = Document.new(:title=>params[:file].original_filename,:creator=>params[:document][:creator],:publisher=>"dchl",:type=>"text",:format=>"application/octet-stream",:source=>params[:file],:language=>"en",:rights=>"public",:date=>DateTime.now)
+    document.save!
+    redirect_to exchanges_hbx_profiles_path+'?tab=documents'
   end
 
   def document_reader
@@ -156,6 +159,35 @@ class DocumentsController < ApplicationController
       expires_in 0, public: true
     end
   end
+
+  def download_employer_document
+    send_file params[:path]
+  end
+
+  def download_documents
+    docs = Document.find(params[:ids])
+    docs.each do |doc|
+      send_file "#{Rails.root}"+"/tmp" + doc.source.url, file_name: doc.title, :type=>"application/pdf"
+    end
+
+  end
+
+  def delete_documents
+    begin
+      Document.any_in(:_id =>params[:ids]).destroy_all
+      render json: { status: 200, message: 'Successfully submitted the selected employer(s) for binder paid.' }
+    rescue => e
+      render json: { status: 500, message: 'An error occured while submitting employer(s) for binder paid.' }
+    end
+  end
+
+  def update_document
+    @document = Document.find(params[:document_id])
+    @reason = params[:reason_for_rejection] == "nil"? params[:other_reason] : params[:reason_for_rejection]
+    @document.update_attributes(status: params[:status],reason_for_rejection: @reason)
+    redirect_to exchanges_hbx_profiles_path+'?tab=documents'
+  end
+
 
 
   private
