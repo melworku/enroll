@@ -147,7 +147,7 @@ class DocumentsController < ApplicationController
 
   def create
     @employer_profile = Organization.all_employer_profiles.where(legal_name: params[:document][:creator]).last.employer_profile
-    document = @employer_profile.upload_document(file_path(params[:file]),file_name(params[:file]),params[:subject])
+    document = @employer_profile.upload_document(file_path(params[:file]),file_name(params[:file]),params[:subject],params[:file].size)
     #document = Document.new(:title=>params[:file].original_filename,:creator=>params[:document][:creator],:publisher=>"dchl",:type=>"text",:format=>"application/octet-stream",:source=>params[:file],:language=>"en",:rights=>"public",:date=>DateTime.now)
     document.save!
     redirect_to exchanges_hbx_profiles_path+'?tab=documents'
