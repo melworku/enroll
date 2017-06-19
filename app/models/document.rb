@@ -2,7 +2,7 @@ class Document
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  mount_uploader :source, DocumentUploader
+  #mount_uploader :source, DocumentUploader
 
   ACCESS_RIGHTS = %w(public pii_restricted)
 

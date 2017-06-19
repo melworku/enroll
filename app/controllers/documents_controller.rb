@@ -146,8 +146,8 @@ class DocumentsController < ApplicationController
   end
 
   def create
-    @employer_profile = Organization.all_employer_profiles.where(legal_name: params[:document][:creator]).last
-    document = @employer_profile.documents.new(:title=>"Doc1",:creator=>params[:document][:creator],:publisher=>"dchl",:type=>"text",:format=>"application/octet-stream",:source=>params[:file],:language=>"en",:rights=>"public",:date=>DateTime.now)
+    @employer_profile = Organization.all_employer_profiles.where(legal_name: params[:document][:creator]).last.employer_profile
+    document = @employer_profile.upload_document(file_path(params[:file]),file_name(params[:file]),params[:subject])
     #document = Document.new(:title=>params[:file].original_filename,:creator=>params[:document][:creator],:publisher=>"dchl",:type=>"text",:format=>"application/octet-stream",:source=>params[:file],:language=>"en",:rights=>"public",:date=>DateTime.now)
     document.save!
     redirect_to exchanges_hbx_profiles_path+'?tab=documents'
@@ -221,6 +221,14 @@ class DocumentsController < ApplicationController
     OpenStruct.new({:determined_at => TimeKeeper.datetime_of_record,
                     :authority => "hbx"
                    })
+  end
+
+  def file_path(file)
+    file.tempfile.path
+  end
+
+  def file_name(file)
+    file.original_filename
   end
 
 end
