@@ -16,11 +16,11 @@ $("input[name='status']").click(function(){
 });
 
 function rejectReason() {
-  var x = $('.selectric-scroll > ul > .selected').text();
-  if (x == "AllOther Reason10") {
+  var x = $('select#reason_for_rejection').val();
+  if (x == "Other Reason") {
     $("input[name='other_reason']").removeClass('hidden');
     $('#attestation_submit').addClass('disabled');
-  } else if (x == "AllReason for rejection10") {
+  } else if (x == "Reason for rejection") {
     $("input[name='other_reason']").addClass('hidden');
     $('#attestation_submit').addClass('disabled');
   } else {
