@@ -7,10 +7,28 @@ $('#reviewClose').click(function() {
 $("input[name='status']").click(function(){
   if ($(this).val() === 'rejected' || $(this).val() === 'info_needed') {
     $('.rejection_reason').removeClass('hidden');
-    $("input[name='other_reason']").removeClass('hidden');
+    $('#submit').addClass('disabled');
   }
   else {
     $('.rejection_reason').addClass('hidden');
     $("input[name='other_reason']").addClass('hidden');
   }
+});
+
+function myFunction() {
+  var x = $('.selectric-scroll > ul > .selected').text();
+  if (x == "AllOther Reason10") {
+    $("input[name='other_reason']").removeClass('hidden');
+    $('#submit').addClass('disabled');
+  } else if (x == "AllReason for rejection10") {
+    $("input[name='other_reason']").addClass('hidden');
+    $('#submit').addClass('disabled');
+  } else {
+    $("input[name='other_reason']").addClass('hidden');
+    $('#submit').removeClass('disabled');
+  }
+}
+
+$("input[name='other_reason']").on('change keydown paste input', function(){
+  $('#submit').removeClass('disabled');
 });
