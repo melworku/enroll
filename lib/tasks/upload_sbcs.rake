@@ -2,7 +2,7 @@ require 'csv'
 require Rails.root.join("lib", "sbc", "sbc_processor")
 require Rails.root.join("lib", "sbc", "sbc_processor2015")
 
-ENV_LIST = ['local', 'prod', 'preprod', 'test', 'uat']
+ENV_LIST = ['qa', 'prod', 'preprod', 'cte', 'cpr', 'uat']
 
 namespace :sbc do
   #USAGE rake sbc:upload['MASTER 2016 QHP_QDP IVAL & SHOP Plan and Rate Matrix v.9.xlsx','v.2 SBCs 9.22.2015']
