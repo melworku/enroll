@@ -60,6 +60,9 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :employers 
+
+
     resources :hbx_profiles do
       root 'hbx_profiles#show'
 
@@ -258,7 +261,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :employer_attestations do 
+    resources :employer_attestations do
        get 'authorized_download'
        get 'verify_attestation'
     end
