@@ -410,6 +410,10 @@ class User
       Thread.current[:current_user]
     end
 
+    def logins_before_captcha
+      4
+    end
+
   end
 
   # def password_digest(plaintext_password)
