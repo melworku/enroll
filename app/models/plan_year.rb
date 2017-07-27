@@ -400,7 +400,6 @@ class PlanYear
 
   def open_enrollment_date_errors
     errors = {}
-
     if is_renewing?
       minimum_length = Settings.aca.shop_market.renewal_application.open_enrollment.minimum_length.days
       enrollment_end = PlanYear.shop_market_renewal_application_monthly_open_enrollment_end_on
@@ -408,6 +407,8 @@ class PlanYear
       minimum_length = Settings.aca.shop_market.open_enrollment.minimum_length.days
       enrollment_end = PlanYear.shop_market_open_enrollment_monthly_end_on
     end
+    
+    coverage_start_on_previous_month = (TimeKeeper.date_of_record - HbxProfile::ShopOpenEnrollmentBeginDueDayOfMonth + Settings.aca.shop_market.open_enrollment.maximum_length.months.months) - 1.month
 
     if (open_enrollment_end_on - (open_enrollment_start_on - 1.day)).to_i < minimum_length
       log_message(errors) {{open_enrollment_period: "Open Enrollment period is shorter than minimum (#{minimum_length} days)"}}
@@ -415,6 +416,18 @@ class PlanYear
 
     if open_enrollment_end_on > Date.new(start_on.prev_month.year, start_on.prev_month.month, enrollment_end)
       log_message(errors) {{open_enrollment_period: "Open Enrollment must end on or before the #{enrollment_end.ordinalize} day of the month prior to effective date"}}
+    end
+
+    if open_enrollment_end_on < open_enrollment_start_on + 5.days
+      log_message(errors) {{open_enrollment_period: "Open Enrollment must be minimum of 5 days"}}
+    end
+
+    if open_enrollment_start_on > coverage_start_on_previous_month.beginning_of_month + 14
+      log_message(errors) {{open_enrollment_period: "Open Enrollment period must be begin on or before the 15th of the month prior to coverage start"}}
+    end
+
+    if open_enrollment_end_on > coverage_start_on_previous_month.beginning_of_month + 19
+      log_message(errors) {{open_enrollment_period: "Open Enrollment period must be end on or before the 20th of the month prior to coverage start"}}
     end
 
     errors
