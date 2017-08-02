@@ -14,14 +14,14 @@
 </table>
 
 <%= render partial: 'notices/shared/paragraph', :locals =>
-  { content: "This is a reminder that you have until #{notice.plan_year.open_enrollment_end_on} to enroll into health coverage offered by #{notice.employer_name} through #{Settings.site.short_name}"} %>
+  { content: "This is a reminder that you have until #{notice.plan_year.open_enrollment_end_on} to enroll into health coverage offered by #{notice.employer_name} through #{site_short_name}"} %>
 
 <%= render partial: 'notices/shared/paragraph', :locals =>
   { content: "<strong>To See Plan Options and Enroll:</strong>"} %>
 
 <%= render partial: 'notices/shared/ordered_list', locals: {
   previous: "To complete the enrollment process, please complete the following steps:",
-  listings: ["Go to <a href='https://enroll.mhc.hbxshop.org'>MAhealthconnector.org</a>",
+  listings: ["Go to #{site_main_web_link}",
              "Log-in or create an account",
              "If necessary, update your household information add any dependents",
              "Select your health plan"] } %>
@@ -35,7 +35,8 @@
 <%= render partial: 'notices/shared/paragraph_with_headers', :locals =>
     { heading: 'For Questions or Assistance:',
       col_styles: ['margin-bottom: 0px']} %>
-
+<%= render partial: 'notices/shared/paragraph', :locals =>
+  { content: "Please contact your broker for further assistance. You can also contact the #{site_short_name} with any questions:"} %>
 <%= render partial: 'notices/shared/unordered_list', :locals => { listings:
 
                                                                    <%= render partial: 'notices/shared/paragraph', :locals =>
