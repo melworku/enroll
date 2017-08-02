@@ -1,27 +1,29 @@
 <%= render partial: 'notices/shared/cover', :locals => {notice: notice} %>
 <%= render partial: 'notices/shared/logo' %>
 <%= render partial: 'notices/shared/address', :locals => {notice: notice} %>
-<br><br><br><br>
+<br><br><br><br><br>
 
 <%= render partial: 'notices/shared/date', :locals => {notice: notice} %>
+
+
 
 <table class="total_table" border="0">
   <tbody>
     <tr>
-      <td>Dear <%= notice.employer_name %>:  </td>
+      <td>Dear <%= notice.primary_fullname %>  </td>
     </tr>
   </tbody>
 </table>
 
 <%= render partial: 'notices/shared/paragraph', :locals =>
-  { content: "This is a reminder that you have until #{notice.plan_year.open_enrollment_end_on} to enroll into health coverage offered by #{notice.employer_name} through #{site_short_name}"} %>
+  { content: "This is a reminder that you have until #{notice.plan_year.open_enrollment_end_on} to enroll into health coverage offered by #{notice.employer_name} through the #{site_short_name}."} %>
 
 <%= render partial: 'notices/shared/paragraph', :locals =>
   { content: "<strong>To See Plan Options and Enroll:</strong>"} %>
 
 <%= render partial: 'notices/shared/ordered_list', locals: {
   previous: "To complete the enrollment process, please complete the following steps:",
-  listings: ["Go to #{site_main_web_link}",
+  listings: ["Go to <a href= ""#{site_main_web_address}"">#{site_website_name}</a>",
              "Log-in or create an account",
              "If necessary, update your household information add any dependents",
              "Select your health plan"] } %>
@@ -36,10 +38,6 @@
     { heading: 'For Questions or Assistance:',
       col_styles: ['margin-bottom: 0px']} %>
 <%= render partial: 'notices/shared/paragraph', :locals =>
-  { content: "Please contact your broker for further assistance. You can also contact the #{site_short_name} with any questions:"} %>
-<%= render partial: 'notices/shared/unordered_list', :locals => { listings:
-
-                                                                   <%= render partial: 'notices/shared/paragraph', :locals =>
   { content: "Please contact your broker for further assistance. You can also contact the #{site_short_name} with any questions:"} %>
 
 <table class="total_table" border="0">
@@ -62,8 +60,4 @@
 <% if notice.broker.present? %>
   <%= render partial: 'notices/shared/paragraph', :locals => { content: "Please contact your broker for further assistance. You can also contact #{site_short_name} with any questions:"} %>
   <%= render partial: 'notices/shared/broker_contact_info', :locals => {broker: notice.broker} %>
-<% else %>
-  <%= render partial: 'notices/shared/paragraph', :locals => 
-  { content: "If you do not currently have a broker, you can reach out to one of our many trained experts by clicking on the “Find a Broker” link in your employer account or calling #{contact_center_phone_number}"} %>
 <% end %>
-
