@@ -383,7 +383,6 @@ describe PlanYear, :type => :model, :dbclean => :after_each do
       end
     end
 
-
     context "when open enrollment period end date not satisfy business rule" do
       before do
         plan_year.open_enrollment_end_on = plan_year.open_enrollment_end_on + 3.day
@@ -396,6 +395,20 @@ describe PlanYear, :type => :model, :dbclean => :after_each do
         expect(plan_year.open_enrollment_date_errors.values.flatten).to include("Open Enrollment must end on or before the #{Settings.aca.shop_market.renewal_application.monthly_open_enrollment_end_on.ordinalize} day of the month prior to effective date")
       end
     end
+
+    context "when open enrollment period start date greater than 15th of prevous month" do
+      before do
+        plan_year.open_enrollment_start_on = plan_year_start_on - 10.day
+        plan_year.save(:validate => false)
+      end
+
+      it 'should error out' do
+        plan_year.publish!
+        expect(plan_year.renewing_draft?).to be_truthy
+        expect(plan_year.open_enrollment_date_errors.values.flatten).to include("Open Enrollment period must be begin on or before the 15th of the month prior to coverage start")
+      end
+    end
+
   end
 
   context "an employer with renewal plan year application" do
