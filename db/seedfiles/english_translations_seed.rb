@@ -17,6 +17,9 @@ translations = [
   WELCOME_INDEX_TRANSLATIONS
 ].reduce({}, :merge)
 
+puts "TRANSLATIONS"
+p translations
+
 translations.keys.each do |k|
   Translation.where(key: k).first_or_create.update_attributes!(value: "\"#{translations[k]}\"")
 end
