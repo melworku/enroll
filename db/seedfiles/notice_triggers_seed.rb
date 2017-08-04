@@ -487,9 +487,8 @@ shop_notice_triggers = [
          primary_recipient_delivery_method: ["secure_message"],
          secondary_recipients: []
        }
-     }
-   ]
-  },  
+     ]
+   },
 ]
 
 
