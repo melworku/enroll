@@ -470,7 +470,50 @@ shop_notice_triggers = [
   },
 ]
 
+   {
+   hbx_id: 'SHOP46',
+   title: 'Broker Hired Confirmation Notice',
+   description: 'Confirmation of Broker Hired Sent to Employer',
+   resource_name: 'employer',
+   event_name: 'broker_hired_confirmation',
+   notice_triggers: [
+     {
+       name: 'Boker Hired Confirmation',
+       notice_template: 'notices/shop_employer_notices/broker_hired_confirmation_notice',
+       notice_builder: 'ShopEmployerNotices::BrokerHiredConfirmationNotice',
+       mpi_indicator: 'SHOP_M046',
+       notice_trigger_element_group: {
+         market_places: ['shop'],
+         primary_recipients: ["employer"],
+         primary_recipient_delivery_method: ["secure_message"],
+         secondary_recipients: []
+       }
+      }
+     ]
+   },
 
+    {
+        hbx_id: 'SHOP_M068',
+        title: 'Employee Plan Selection Confirmation',
+        description: 'Employee selects a plan during annual open enrollement OE is still open and not final confirmation',
+        resource_name: 'employee_role',
+        event_name: 'select_plan_year_during_oe',
+        notice_triggers: [
+            {
+                name: 'Notice to employee after they select a plan during Annual Open Enrollment',
+                notice_template: 'notices/shop_employee_notices/15_employee_select_plan_during_annual_open_enrollment',
+                notice_builder: 'ShopEmployeeNotices::EmployeeSelectPlanDuringOpenEnrollment',
+                mpi_indicator: 'SHOP_M068',
+                notice_trigger_element_group: {
+                    market_places: ['shop'],
+                    primary_recipients: ["employee"],
+                    primary_recipient_delivery_method: ["secure_message"],
+                    secondary_recipients: []
+                }
+            }
+        ]
+    },
+]
 
 ivl_notice_triggers = [
   {
