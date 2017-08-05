@@ -225,46 +225,7 @@
 
             <!--Health plan contribution: start-->
             <div class="col-xs-11 package-offering">
-              <% if bg.sole_source? %>
-                <div class="col-xs-12">
-                  <table>
-                    <tr>
-                      <th>Member Type</th>
-                      <th>Employer
-                        <% if bg.is_offering_dental? %>Health
-                        <% end %>Contribution</th>
-                    </tr>
-                    <% bg.composite_tier_contributions.each_with_index do |ct, i| %>
-                    <tr>
-                      <td><%= ct.composite_rating_tier.try(:humanize) %></td>
-                      <td id="pct">
-                        <strong><%= number_to_percentage ct.employer_contribution_percent.ceil, precision: 0 %></strong>
-                      </td>
-                    </tr>
-                    <% end %>
-                    <tr></tr>
-                  </table>
-                </div>
-              <% else %>
-                <div class="col-xs-12">
-                  <table>
-                    <tr>
-                      <th>Offered</th>
-                      <th>Employer
-                        <% if bg.is_offering_dental? %>Health
-                        <% end %>Contribution</th>
-                    </tr>
-                    <% bg.relationship_benefits.each_with_index do |rb, i| %>
-                    <tr>
-                      <td><%= rb.offered ? raw("<i class='fa fa-check-square-o fa-lg'></i>") : raw("<i class='fa fa-square-o fa-lg'></i>") %><%= rb.relationship.try(:humanize) %></td>
-                      <td id="pct">
-                        <strong><%= number_to_percentage rb.premium_pct.ceil, precision: 0 %></strong>
-                      </td>
-                    </tr>
-                    <% end %>
-                  </table>
-                </div>
-              <% end %>
+              <%= render partial: 'employers/plan_years/benefit_group_summary', locals: { bg: bg } %>
             </div>
             <!--Health plan contribution: end -->
 
