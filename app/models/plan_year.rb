@@ -418,10 +418,6 @@ class PlanYear
       log_message(errors) {{open_enrollment_period: "Open Enrollment must end on or before the #{enrollment_end.ordinalize} day of the month prior to effective date"}}
     end
 
-    if open_enrollment_start_on > start_on.prev_month.beginning_of_month + 14
-      log_message(errors) {{open_enrollment_period: "Open Enrollment period must be begin on or before the 15th of the month prior to coverage start"}}
-    end
-
     errors
   end
 
@@ -1323,5 +1319,17 @@ class PlanYear
         errors.add(:end_on, "plan year period should be: #{duration_in_days(Settings.aca.shop_market.benefit_period.length_minimum.year.years - 1.day)} days")
       end
     end
-  end
-end
+
+    if (open_enrollment_end_on - (open_enrollment_start_on - 1.day)).to_i < Settings.aca.shop_market.open_enrollment.  minimum_length.days 
+          errors.add(:end_on, "Open Enrollment period is shorter than minimum (#{Settings.aca.shop_market.open_enrollment.minimum_length.days} days)")
+      end
+
+     if open_enrollment_end_on > Date.new(start_on.prev_month.year, start_on.prev_month.month, 20)
+         errors.add(:end_on, "Open Enrollment must end on or before the 20th day of the month prior to effective date")
+     end
+
+     if open_enrollment_start_on > start_on.prev_month.beginning_of_month + 14
+         errors.add(:start_on, "Open Enrollment period must be begin on or before the 15th of the month prior to coverage start")
+     end
+    end
+   end
