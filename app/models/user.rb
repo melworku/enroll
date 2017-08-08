@@ -384,6 +384,10 @@ class User
     end
   end
 
+  def needs_to_provide_security_questions?
+    true
+  end
+
   class << self
 
     def by_email(email)
