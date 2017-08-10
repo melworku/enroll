@@ -554,7 +554,7 @@ shop_notice_triggers = [
         name: 'Employee Open Enrollment Reminder Notice',
         notice_template: 'notices/shop_employee_notices/14_employee_open_enrollment_reminder',
         notice_builder: 'ShopEmployeeNotices::EmployeeOpenEnrollmentReminderNotice',
-        mpi_indicator: 'MPI_SHOP14',
+        mpi_indicator: 'SHOP_M014',
         notice_trigger_element_group: {
           market_places: ['shop'],
           primary_recipients: ["employee"],
