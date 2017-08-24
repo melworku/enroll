@@ -14,11 +14,10 @@ translations = [
   LAYOUT_TRANSLATIONS,
   MAIN_TRANSLATIONS,
   USERS_ORPHANS_TRANSLATIONS,
-  WELCOME_INDEX_TRANSLATIONS
+  WELCOME_INDEX_TRANSLATIONS,
+  INSURED_TRANSLATIONS,
+  BROKER_AGENCIES_TRANSLATIONS
 ].reduce({}, :merge)
-
-puts "TRANSLATIONS"
-p translations
 
 translations.keys.each do |k|
   Translation.where(key: k).first_or_create.update_attributes!(value: "\"#{translations[k]}\"")
