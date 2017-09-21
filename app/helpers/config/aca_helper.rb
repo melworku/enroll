@@ -80,4 +80,12 @@ module Config::AcaHelper
    Settings.site.broker_quoting_enabled
   end
 
+  def earliest_start_prior_to_effective_on_date
+    Settings.aca.shop_market.initial_application.earliest_start_prior_to_effective_on.days
+  end
+
+  def earliest_start_prior_to_effective_on_months
+    Settings.aca.shop_market.initial_application.earliest_start_prior_to_effective_on.prior_months
+  end
+
 end
